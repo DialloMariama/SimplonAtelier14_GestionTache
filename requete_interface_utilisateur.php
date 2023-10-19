@@ -5,7 +5,6 @@ include_once('bd.php');
 $nom="";
 $email="";
 $mot_de_passe="";
-$nom="";
 $confirmation_mot_de_passe="";
 $erreurs=[];
 
@@ -16,9 +15,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $mot_de_passe= $_POST['mot_de_passe'];
         $confirmation_mot_de_passe= $_POST['confirmation_mot_de_passe'];
 
-        
         $regex_nom = "/^[a-zA-Z ']{2,}$/";
-       
         if (!preg_match($regex_nom, $_POST["nom"])) {
             $erreurs[] = "Le nom est invalide.";
         }
@@ -59,9 +56,24 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             }
             
         }
-    
+    }
 
-}
+    if(isset($_POST["se_connecter"])){
+        $email= $_POST['email'];
+        $mot_de_passe= md5($_POST['mot_de_passe']);
+
+        $connexion="SELECT * FROM utilisateurs WHERE email = ? AND mot_de_passe = ?";
+        $stmt=$db->prepare($connexion);
+        $stmt->execute([$email, $mot_de_passe]);
+        $user=$stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($user){
+            header('location: connexion.php');
+        }else{
+            echo "echec de connexion";
+        }
+
+    }
     
 }
 
