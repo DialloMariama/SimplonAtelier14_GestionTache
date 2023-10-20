@@ -62,13 +62,18 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $email= $_POST['email'];
         $mot_de_passe= md5($_POST['mot_de_passe']);
 
+
         $connexion="SELECT * FROM utilisateurs WHERE email = ? AND mot_de_passe = ?";
         $stmt=$db->prepare($connexion);
         $stmt->execute([$email, $mot_de_passe]);
         $user=$stmt->fetch(PDO::FETCH_ASSOC);
 
         if($user){
-            header('location: connexion.php');
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_nom'] = $user['nom_utilisateur'];
+            // var_dump($_SESSION['user_nom']);
+            
+            header('location: gestion_des_taches.php');
         }else{
             echo "echec de connexion";
         }
