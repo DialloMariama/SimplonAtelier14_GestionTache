@@ -4,28 +4,34 @@
     include_once('requete_gestion_tache.php');
     include_once('bd.php');
 
-    // Vérifiez si le paramètre tache_id est défini dans l'URL
     if (isset($_GET['tache_id'])) {
         $tache_id = $_GET['tache_id'];
 
-        // Chargez la tâche correspondante à partir de la base de données
         $requete = "SELECT * FROM taches WHERE id_taches = ?";
         $stmt = $db->prepare($requete);
         $stmt->execute([$tache_id]);
         $tache = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Vérifiez si la variable $tache est définie avant de l'afficher
         if (isset($tache)) {
-            // Affichez les détails de la tâche
             // ...
         } else {
-            // Tâche non trouvée, affichez un message d'erreur ou redirigez l'utilisateur
             echo "Tâche non trouvée.";
         }
     } else {
-        // Paramètre tache_id non fourni dans l'URL, affichez un message d'erreur ou redirigez l'utilisateur
         echo "Paramètre tache_id manquant.";
     }
+
+    
+if (isset($_POST['terminer_tache'])) {
+    $tache_id = $_POST['tache_id'];
+
+    $update_query = "UPDATE taches SET etat = 'Terminée' WHERE id_taches = ?";
+    $stmt = $db->prepare($update_query);
+    $stmt->execute([$tache_id]);
+
+    header('Location: detail_tache.php?tache_id=' . $tache_id);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,10 +65,14 @@
                         <td><?php echo $tache['priorite']; ?></td>
                         <td><?php echo $tache['etat']; ?></td>
                         <td>
-                            <button type="submit" name="voir_details">Terminée la tache</button>
-                            <button type="submit" name="supprimer_tache" class="supprimer_tache">Supprimer la tache</button>
+                            <form action="" method="POST" class="form-terminer">
+                                <input type="hidden" name="tache_id" value="<?php echo $tache['id_taches']; ?>">
+                                <button type="submit" name="terminer_tache">Terminer la tâche</button>
 
+                            </form>
+                            <button type="submit" name="supprimer_tache" class="supprimer_tache">Supprimer la tache</button>
                         </td>
+
                     </tr>
                 </tbody>
             </table>

@@ -57,6 +57,7 @@ textarea:focus {
     border-color:  rgba(76, 175, 80); 
     box-shadow: 0px 0px 5px rgba(76, 175, 80);
 } 
+
 form{
     width: 500px;
     /* margin: 300px 20px 0px 100px;  */
@@ -134,4 +135,18 @@ h1{
     width: 120px;
     background-color: rgb(227, 83, 6);
 
+}
+.form-terminer {
+    /* margin-top: 100px; */
+    width: 100px;
+    height: 20px;
+    /* display: inline-block; Permet de rendre le formulaire en ligne */
+    margin-right: 10px;
+    background-color: #fff1f1;
+}
+
+.form-terminer button {
+    padding: 5px 10px; 
+    font-size: 12px; 
+    width: 100px;
 }
