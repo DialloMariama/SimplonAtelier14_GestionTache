@@ -44,6 +44,7 @@ if (isset($_POST['supprimer_tache']) && isset($_POST['tache_id'])) {
         exit;
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -89,6 +90,7 @@ if (isset($_POST['supprimer_tache']) && isset($_POST['tache_id'])) {
                                 <button type="submit" name="supprimer_tache" class="supprimer_tache">Supprimer la tache</button>
                             </form>
                         </div>
+                            <button type="submit" name="voir_details"><a href="modifier_tache.php?tache_id=<?php echo $tache['id_taches']; ?>" class="modifier_tache">Modifier la tâche</a></button>
                         </td>
                     </tr>
                 </tbody>
